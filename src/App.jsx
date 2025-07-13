@@ -28,6 +28,24 @@ const firebaseConfig = {
   measurementId: "G-6TJ5GPKRT4"
 };
 
+// --- Hosting Configuration ---
+const hostingConfig = {
+  "hosting": {
+    "public": "workout_tracker/dist",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/index.html"
+      }
+    ]
+  }
+};
+
 // --- Default Data ---
 const initialExerciseList = [
   "Arnold Press", "Barbell Row", "Barbell Shrug", "Bench Press", "Bicep Curl", 
@@ -662,3 +680,18 @@ const WorkoutCalendar = ({ workouts, deleteWorkout, deleteSet }) => {
     </div>
   );
 };
+```
+
+# filepath: vite.config.js
+```javascript
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+
+export default defineConfig({
+  plugins: [react()],
+  build: {
+    outDir: 'dist',
+    emptyOutDir: true
+  }
+})
+```
