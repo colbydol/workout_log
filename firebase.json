@@ -1,6 +1,6 @@
 {
   "hosting": {
-    "public": "dist",
+    "public": "workout_tracker/dist",
     "ignore": [
       "firebase.json",
       "**/.*",
@@ -9,8 +9,3 @@
     "rewrites": [
       {
         "source": "**",
-        "destination": "/index.html"
-      }
-    ]
-  }
-}
