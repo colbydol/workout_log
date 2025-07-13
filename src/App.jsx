@@ -1,38 +1,36 @@
-import React, { useState, useEffect } from 'react'
-import './App.css'
+import React, { useState } from 'react';
+import { exerciseOptions, getExerciseLabel } from './data/exercises';
+import './App.css';
 
 function App() {
-  const [workouts, setWorkouts] = useState([])
+  const [workouts, setWorkouts] = useState([]);
   const [newWorkout, setNewWorkout] = useState({
     date: '',
     exercise: '',
     sets: '',
     reps: '',
     weight: ''
-  })
+  });
 
-  // Example function to add a workout
   const addWorkout = (e) => {
-    e.preventDefault()
-    setWorkouts([...workouts, { ...newWorkout, id: Date.now() }])
-    // Reset form
+    e.preventDefault();
+    setWorkouts([...workouts, { ...newWorkout, id: Date.now() }]);
     setNewWorkout({
       date: '',
       exercise: '',
       sets: '',
       reps: '',
       weight: ''
-    })
-  }
+    });
+  };
 
-  // Handle input changes
   const handleChange = (e) => {
-    const { name, value } = e.target
+    const { name, value } = e.target;
     setNewWorkout({
       ...newWorkout,
       [name]: value
-    })
-  }
+    });
+  };
 
   return (
     <div className="workout-container">
@@ -55,14 +53,21 @@ function App() {
         
         <div className="form-group">
           <label>Exercise:</label>
-          <input 
-            type="text" 
-            name="exercise" 
-            value={newWorkout.exercise} 
+          {/* Dropdown instead of text input */}
+          <select
+            name="exercise"
+            value={newWorkout.exercise}
             onChange={handleChange}
-            placeholder="e.g., Bench Press" 
             required
-          />
+            className="exercise-dropdown"
+          >
+            <option value="">Select an exercise</option>
+            {exerciseOptions.map(option => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
         </div>
         
         <div className="form-row">
@@ -128,7 +133,7 @@ function App() {
               {workouts.map(workout => (
                 <tr key={workout.id}>
                   <td>{workout.date}</td>
-                  <td>{workout.exercise}</td>
+                  <td>{getExerciseLabel(workout.exercise)}</td>
                   <td>{workout.sets}</td>
                   <td>{workout.reps}</td>
                   <td>{workout.weight} lbs</td>
@@ -139,7 +144,7 @@ function App() {
         )}
       </div>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
