@@ -18,7 +18,6 @@ import {
 } from 'firebase/firestore';
 
 // --- Firebase Configuration ---
-// This is now connected to your specific Firebase project with the corrected storageBucket URL.
 const firebaseConfig = {
   apiKey: "AIzaSyBv4FbPvDAdhcvgn4JZyBhhS-yCN4V6e08",
   authDomain: "fitness-tracker-66f4c.firebaseapp.com",
