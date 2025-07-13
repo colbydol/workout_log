@@ -3,146 +3,267 @@ import { exerciseOptions, getExerciseLabel } from './data/exercises';
 import './App.css';
 
 function App() {
-  const [workouts, setWorkouts] = useState([]);
-  const [newWorkout, setNewWorkout] = useState({
-    date: '',
-    exercise: '',
-    sets: '',
-    reps: '',
-    weight: ''
-  });
+  // Hierarchical data structure: { date: { exercises: [{ id, name, sets: [{ id, reps, weight }] }] } }
+  const [workouts, setWorkouts] = useState({});
+  const [selectedDate, setSelectedDate] = useState('');
 
-  const addWorkout = (e) => {
-    e.preventDefault();
-    setWorkouts([...workouts, { ...newWorkout, id: Date.now() }]);
-    setNewWorkout({
-      date: '',
-      exercise: '',
-      sets: '',
+  // Add a new exercise to the selected date
+  const addExercise = (exerciseName) => {
+    if (!selectedDate || !exerciseName) return;
+    
+    const newExercise = {
+      id: Date.now(),
+      name: exerciseName,
+      sets: []
+    };
+
+    setWorkouts(prev => ({
+      ...prev,
+      [selectedDate]: {
+        exercises: [...(prev[selectedDate]?.exercises || []), newExercise]
+      }
+    }));
+  };
+
+  // Remove an exercise
+  const removeExercise = (exerciseId) => {
+    if (!selectedDate) return;
+    
+    setWorkouts(prev => ({
+      ...prev,
+      [selectedDate]: {
+        exercises: prev[selectedDate].exercises.filter(ex => ex.id !== exerciseId)
+      }
+    }));
+  };
+
+  // Add a set to an exercise
+  const addSet = (exerciseId) => {
+    if (!selectedDate) return;
+    
+    const newSet = {
+      id: Date.now(),
       reps: '',
       weight: ''
-    });
+    };
+
+    setWorkouts(prev => ({
+      ...prev,
+      [selectedDate]: {
+        exercises: prev[selectedDate].exercises.map(ex => 
+          ex.id === exerciseId 
+            ? { ...ex, sets: [...ex.sets, newSet] }
+            : ex
+        )
+      }
+    }));
   };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setNewWorkout({
-      ...newWorkout,
-      [name]: value
-    });
+  // Remove a set from an exercise
+  const removeSet = (exerciseId, setId) => {
+    if (!selectedDate) return;
+    
+    setWorkouts(prev => ({
+      ...prev,
+      [selectedDate]: {
+        exercises: prev[selectedDate].exercises.map(ex => 
+          ex.id === exerciseId 
+            ? { ...ex, sets: ex.sets.filter(set => set.id !== setId) }
+            : ex
+        )
+      }
+    }));
   };
+
+  // Update set data (reps or weight)
+  const updateSet = (exerciseId, setId, field, value) => {
+    if (!selectedDate) return;
+    
+    setWorkouts(prev => ({
+      ...prev,
+      [selectedDate]: {
+        exercises: prev[selectedDate].exercises.map(ex => 
+          ex.id === exerciseId 
+            ? { 
+                ...ex, 
+                sets: ex.sets.map(set => 
+                  set.id === setId 
+                    ? { ...set, [field]: value }
+                    : set
+                )
+              }
+            : ex
+        )
+      }
+    }));
+  };
+
+  // Calculate totals for the selected workout
+  const calculateTotals = () => {
+    if (!selectedDate || !workouts[selectedDate]) {
+      return { totalSets: 0, totalReps: 0, totalWeight: 0 };
+    }
+
+    const exercises = workouts[selectedDate].exercises;
+    let totalSets = 0;
+    let totalReps = 0;
+    let totalWeight = 0;
+
+    exercises.forEach(exercise => {
+      exercise.sets.forEach(set => {
+        if (set.reps && set.weight) {
+          totalSets++;
+          totalReps += parseInt(set.reps) || 0;
+          totalWeight += parseInt(set.weight) || 0;
+        }
+      });
+    });
+
+    return { totalSets, totalReps, totalWeight };
+  };
+
+  const { totalSets, totalReps, totalWeight } = calculateTotals();
 
   return (
     <div className="workout-container">
       <h1>Workout Log</h1>
       
-      {/* Workout Form */}
-      <form onSubmit={addWorkout} className="workout-form">
-        <h2>Add New Workout</h2>
-        
-        <div className="form-group">
-          <label>Date:</label>
-          <input 
-            type="date" 
-            name="date" 
-            value={newWorkout.date} 
-            onChange={handleChange}
-            required
-          />
-        </div>
-        
-        <div className="form-group">
-          <label>Exercise:</label>
-          {/* Dropdown instead of text input */}
-          <select
-            name="exercise"
-            value={newWorkout.exercise}
-            onChange={handleChange}
-            required
-            className="exercise-dropdown"
-          >
-            <option value="">Select an exercise</option>
-            {exerciseOptions.map(option => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
-          </select>
-        </div>
-        
-        <div className="form-row">
-          <div className="form-group">
-            <label>Sets:</label>
-            <input 
-              type="number" 
-              name="sets" 
-              value={newWorkout.sets} 
-              onChange={handleChange}
-              min="1"
-              required
-            />
-          </div>
-          
-          <div className="form-group">
-            <label>Reps:</label>
-            <input 
-              type="number" 
-              name="reps" 
-              value={newWorkout.reps} 
-              onChange={handleChange}
-              min="1"
-              required
-            />
-          </div>
-          
-          <div className="form-group">
-            <label>Weight (lbs):</label>
-            <input 
-              type="number" 
-              name="weight" 
-              value={newWorkout.weight} 
-              onChange={handleChange}
-              min="0"
-              step="5"
-              required
-            />
-          </div>
-        </div>
-        
-        <button type="submit" className="add-button">Add Workout</button>
-      </form>
-      
-      {/* Workout List */}
-      <div className="workout-list">
-        <h2>Your Workouts</h2>
-        
-        {workouts.length === 0 ? (
-          <p className="no-workouts">No workouts logged yet. Add one to get started!</p>
-        ) : (
-          <table>
-            <thead>
-              <tr>
-                <th>Date</th>
-                <th>Exercise</th>
-                <th>Sets</th>
-                <th>Reps</th>
-                <th>Weight</th>
-              </tr>
-            </thead>
-            <tbody>
-              {workouts.map(workout => (
-                <tr key={workout.id}>
-                  <td>{workout.date}</td>
-                  <td>{getExerciseLabel(workout.exercise)}</td>
-                  <td>{workout.sets}</td>
-                  <td>{workout.reps}</td>
-                  <td>{workout.weight} lbs</td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
+      {/* Date Selection */}
+      <div className="date-selection">
+        <h2>Select Workout Date</h2>
+        <input 
+          type="date" 
+          value={selectedDate} 
+          onChange={(e) => setSelectedDate(e.target.value)}
+          className="date-input"
+        />
       </div>
+
+      {selectedDate && (
+        <>
+          {/* Exercise Management */}
+          <div className="exercise-management">
+            <h2>Workout for {selectedDate}</h2>
+            
+            {/* Add Exercise Form */}
+            <div className="add-exercise-form">
+              <select 
+                id="new-exercise"
+                className="exercise-dropdown"
+                onChange={(e) => {
+                  if (e.target.value) {
+                    addExercise(e.target.value);
+                    e.target.value = '';
+                  }
+                }}
+              >
+                <option value="">Add an exercise...</option>
+                {exerciseOptions.map(option => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
+              </select>
+            </div>
+
+            {/* Exercise List */}
+            <div className="exercises-list">
+              {workouts[selectedDate]?.exercises?.map(exercise => (
+                <div key={exercise.id} className="exercise-card">
+                  <div className="exercise-header">
+                    <h3>{getExerciseLabel(exercise.name)}</h3>
+                    <button 
+                      onClick={() => removeExercise(exercise.id)}
+                      className="remove-button"
+                    >
+                      Remove Exercise
+                    </button>
+                  </div>
+
+                  {/* Sets for this exercise */}
+                  <div className="sets-container">
+                    <div className="sets-header">
+                      <span>Sets:</span>
+                      <button 
+                        onClick={() => addSet(exercise.id)}
+                        className="add-set-button"
+                      >
+                        Add Set
+                      </button>
+                    </div>
+
+                    {exercise.sets.length === 0 ? (
+                      <p className="no-sets">No sets added yet. Click "Add Set" to get started!</p>
+                    ) : (
+                      <div className="sets-list">
+                        {exercise.sets.map((set, index) => (
+                          <div key={set.id} className="set-row">
+                            <span className="set-number">Set {index + 1}:</span>
+                            <div className="set-inputs">
+                              <input
+                                type="number"
+                                placeholder="Reps"
+                                value={set.reps}
+                                onChange={(e) => updateSet(exercise.id, set.id, 'reps', e.target.value)}
+                                className="reps-input"
+                                min="1"
+                              />
+                              <span>reps @</span>
+                              <input
+                                type="number"
+                                placeholder="Weight"
+                                value={set.weight}
+                                onChange={(e) => updateSet(exercise.id, set.id, 'weight', e.target.value)}
+                                className="weight-input"
+                                min="0"
+                                step="5"
+                              />
+                              <span>lbs</span>
+                              <button 
+                                onClick={() => removeSet(exercise.id, set.id)}
+                                className="remove-set-button"
+                              >
+                                ×
+                              </button>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
+
+              {(!workouts[selectedDate]?.exercises || workouts[selectedDate].exercises.length === 0) && (
+                <p className="no-exercises">No exercises added yet. Select an exercise from the dropdown above!</p>
+              )}
+            </div>
+          </div>
+
+          {/* Workout Totals */}
+          <div className="workout-totals">
+            <h2>Workout Totals</h2>
+            <div className="totals-grid">
+              <div className="total-item">
+                <span className="total-label">Total Sets:</span>
+                <span className="total-value">{totalSets}</span>
+              </div>
+              <div className="total-item">
+                <span className="total-label">Total Reps:</span>
+                <span className="total-value">{totalReps}</span>
+              </div>
+              <div className="total-item">
+                <span className="total-label">Total Weight:</span>
+                <span className="total-value">{totalWeight} lbs</span>
+              </div>
+            </div>
+          </div>
+        </>
+      )}
+
+      {!selectedDate && (
+        <p className="select-date-message">Please select a date above to start logging your workout!</p>
+      )}
     </div>
   );
 }
