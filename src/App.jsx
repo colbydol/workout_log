@@ -28,24 +28,6 @@ const firebaseConfig = {
   measurementId: "G-6TJ5GPKRT4"
 };
 
-// --- Hosting Configuration ---
-const hostingConfig = {
-  "hosting": {
-    "public": "workout_tracker/dist",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ],
-    "rewrites": [
-      {
-        "source": "**",
-        "destination": "/index.html"
-      }
-    ]
-  }
-};
-
 // --- Default Data ---
 const initialExerciseList = [
   "Arnold Press", "Barbell Row", "Barbell Shrug", "Bench Press", "Bicep Curl", 
@@ -73,6 +55,9 @@ const formatDate = (date) => {
   return [year, month, day].join('-');
 };
 
+// Initialize Firebase App
+const app = initializeApp(firebaseConfig);
+
 // --- Main App Component ---
 export default function App() {
     const [user, setUser] = useState(null);
@@ -83,7 +68,6 @@ export default function App() {
 
     useEffect(() => {
         try {
-            const app = initializeApp(firebaseConfig);
             const authInstance = getAuth(app);
             setAuth(authInstance);
             setDb(getFirestore(app));
@@ -680,18 +664,3 @@ const WorkoutCalendar = ({ workouts, deleteWorkout, deleteSet }) => {
     </div>
   );
 };
-```
-
-# filepath: vite.config.js
-```javascript
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
-
-export default defineConfig({
-  plugins: [react()],
-  build: {
-    outDir: 'dist',
-    emptyOutDir: true
-  }
-})
-```
