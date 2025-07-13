@@ -1,3 +1,55 @@
+/* Add these rules at the top of your CSS file */
+body {
+  color: #000000;
+  background-color: #ffffff;
+}
+
+/* Update text colors for all main elements */
+h1, h2, h3, h4, h5, h6, p, label, span, div, td, th {
+  color: #000000;
+}
+
+.workout-container {
+  color: #000000;
+}
+
+/* Override any existing color schemes */
+:root {
+  color-scheme: light;
+  color: #000000;
+  background-color: #ffffff;
+}
+
+/* Make sure form elements use black text */
+input, select, .exercise-dropdown {
+  color: #000000;
+}
+
+/* Ensure table text is black */
+table th, 
+table td {
+  color: #000000;
+}
+
+/* Keep button text readable */
+button {
+  color: white;
+  background-color: #4CAF50;
+}
+
+/* Override any dark mode settings */
+@media (prefers-color-scheme: dark) {
+  :root {
+    color: #000000;
+    background-color: #ffffff;
+  }
+  body {
+    color: #000000;
+    background-color: #ffffff;
+  }
+}
+
+
 .workout-container {
   max-width: 800px;
   margin: 0 auto;
