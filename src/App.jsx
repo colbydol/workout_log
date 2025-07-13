@@ -1,23 +1,20 @@
 import { useState } from 'react'
-// Remove this line:
-// import viteLogo from '/vite.svg'
-// If you have reactLogo import, you can keep it or remove it too
-// import reactLogo from './assets/react.svg'
 import './App.css'
 
 function App() {
-  const [count, useState] = useState(0)
+  const [count, setCount] = useState(0)
 
   return (
     <>
-      <div>
-        {/* Remove or comment out the logo references */}
-        {/* <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a> */}
-        {/* Keep any other content */}
+      <h1>Workout Log</h1>
+      <div className="card">
+        <button onClick={() => setCount((count) => count + 1)}>
+          Count is {count}
+        </button>
+        <p>
+          Edit <code>src/App.jsx</code> and save to test hot reload
+        </p>
       </div>
-      {/* Rest of your component */}
     </>
   )
 }
