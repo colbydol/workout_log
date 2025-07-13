@@ -179,17 +179,3 @@ function App() {
 }
 
 export default App;
-
-// Additional settings for npm integration in VS Code
-{
-  "commands": {
-    "command": "npm.runInstall"
-  }
-}
-
-{
-  "type": "setting",
-  "settings": {
-    "npm.fetchOnlinePackageInfo": true
-  }
-}
