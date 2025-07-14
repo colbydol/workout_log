@@ -104,16 +104,34 @@ function App() {
   const addWorkout = async (e) => {
     e.preventDefault();
     if (!user) return;
-    await addDoc(collection(db, 'workouts'), {
-      ...newWorkout,
-      uid: user.uid,
-    });
-    setNewWorkout({
-      date: '',
-      exercises: [
-        { name: '', sets: [{ reps: '', weight: '' }] }
-      ]
-    });
+
+    // Validate at least one exercise and one set
+    if (
+      !newWorkout.date ||
+      newWorkout.exercises.length === 0 ||
+      newWorkout.exercises.some(
+        ex => !ex.name || ex.sets.length === 0 || ex.sets.some(set => !set.reps || !set.weight)
+      )
+    ) {
+      alert('Please fill out all fields for each exercise and set.');
+      return;
+    }
+
+    try {
+      await addDoc(collection(db, 'workouts'), {
+        ...newWorkout,
+        uid: user.uid,
+      });
+      // Reset form
+      setNewWorkout({
+        date: '',
+        exercises: [
+          { name: '', sets: [{ reps: '', weight: '' }] }
+        ]
+      });
+    } catch (error) {
+      alert('Error adding workout: ' + error.message);
+    }
   };
 
   if (!user) {
