@@ -101,6 +101,16 @@ function App() {
     setNewWorkout({ ...newWorkout, exercises });
   };
 
+  const deleteSet = (exIdx, setIdx) => {
+    const exercises = [...newWorkout.exercises];
+    exercises[exIdx].sets.splice(setIdx, 1);
+    // Ensure at least one set remains for each exercise
+    if (exercises[exIdx].sets.length === 0) {
+      exercises[exIdx].sets.push({ reps: '', weight: '' });
+    }
+    setNewWorkout({ ...newWorkout, exercises });
+  };
+
   const addWorkout = async (e) => {
     e.preventDefault();
     if (!user) return;
@@ -243,6 +253,15 @@ function App() {
                     required
                   />
                 </div>
+                <button
+                  type="button"
+                  className="app-button"
+                  style={{ marginLeft: '10px' }}
+                  onClick={() => deleteSet(exIdx, setIdx)}
+                  disabled={exercise.sets.length === 1}
+                >
+                  Delete Set
+                </button>
               </div>
             ))}
             <button type="button" className="app-button" onClick={() => addSet(exIdx)} style={{marginBottom: '10px'}}>Add Set</button>
