@@ -147,8 +147,8 @@ function App() {
             <label>Password:</label>
             <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required />
           </div>
-          <button type="submit" className="add-button">{isRegistering ? 'Register' : 'Login'}</button>
-          <button type="button" onClick={() => setIsRegistering(!isRegistering)} style={{marginTop: '10px', background: 'grey'}}>
+          <button type="submit" className="app-button">{isRegistering ? 'Register' : 'Login'}</button>
+          <button type="button" className="app-button" onClick={() => setIsRegistering(!isRegistering)} style={{marginTop: '10px'}}>
             {isRegistering ? 'Have an account? Login' : 'Need an account? Register'}
           </button>
         </form>
@@ -159,7 +159,7 @@ function App() {
   return (
     <div className="workout-container">
       <h1>Workout Log</h1>
-      <button onClick={handleLogout} style={{marginBottom: '20px'}}>Logout</button>
+      <button onClick={handleLogout} className="app-button" style={{marginBottom: '20px'}}>Logout</button>
       <form onSubmit={addWorkout} className="workout-form">
         <h2>Add New Workout</h2>
         <div className="form-group">
@@ -210,11 +210,11 @@ function App() {
                 </div>
               </div>
             ))}
-            <button type="button" onClick={() => addSet(exIdx)} style={{marginBottom: '10px'}}>Add Set</button>
+            <button type="button" className="app-button" onClick={() => addSet(exIdx)} style={{marginBottom: '10px'}}>Add Set</button>
           </div>
         ))}
-        <button type="button" onClick={addExercise} style={{marginBottom: '10px'}}>Add Exercise</button>
-        <button type="submit" className="add-button">Add Workout</button>
+        <button type="button" className="app-button" onClick={addExercise} style={{marginBottom: '10px'}}>Add Exercise</button>
+        <button type="submit" className="app-button">Add Workout</button>
       </form>
 
       {/* Aggregated sets and reps table for the current workout being entered */}
