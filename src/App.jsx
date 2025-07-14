@@ -255,29 +255,36 @@ function App() {
       )}
 
       <div className="workout-list">
-        <h2>Your Workouts</h2>
+        <h2>Past Workouts</h2>
         {workouts.length === 0 ? (
           <p className="no-workouts">No workouts logged yet. Add one to get started!</p>
         ) : (
-          <div>
-            {workouts.map(workout => (
-              <div key={workout.id} className="workout-entry">
-                <h3>{workout.date}</h3>
-                {workout.exercises.map((exercise, exIdx) => (
-                  <div key={exIdx}>
-                    <strong>{getExerciseLabel(exercise.name)}</strong>
-                    <ul>
-                      {exercise.sets.map((set, setIdx) => (
-                        <li key={setIdx}>
-                          Set {setIdx + 1}: {set.reps} reps @ {set.weight} lbs
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                ))}
-              </div>
-            ))}
-          </div>
+          <table style={{ width: '100%', borderCollapse: 'collapse', marginTop: '20px' }}>
+            <thead>
+              <tr>
+                <th style={{ border: '1px solid #ccc', padding: '8px' }}>Date</th>
+                <th style={{ border: '1px solid #ccc', padding: '8px' }}>Exercise</th>
+                <th style={{ border: '1px solid #ccc', padding: '8px' }}>Set</th>
+                <th style={{ border: '1px solid #ccc', padding: '8px' }}>Reps</th>
+                <th style={{ border: '1px solid #ccc', padding: '8px' }}>Weight (lbs)</th>
+              </tr>
+            </thead>
+            <tbody>
+              {workouts.map(workout =>
+                workout.exercises.map((exercise, exIdx) =>
+                  exercise.sets.map((set, setIdx) => (
+                    <tr key={`${workout.id}-${exIdx}-${setIdx}`}>
+                      <td style={{ border: '1px solid #ccc', padding: '8px' }}>{workout.date}</td>
+                      <td style={{ border: '1px solid #ccc', padding: '8px' }}>{getExerciseLabel(exercise.name)}</td>
+                      <td style={{ border: '1px solid #ccc', padding: '8px' }}>{setIdx + 1}</td>
+                      <td style={{ border: '1px solid #ccc', padding: '8px' }}>{set.reps}</td>
+                      <td style={{ border: '1px solid #ccc', padding: '8px' }}>{set.weight}</td>
+                    </tr>
+                  ))
+                )
+              )}
+            </tbody>
+          </table>
         )}
       </div>
     </div>
