@@ -134,6 +134,41 @@ function App() {
     }
   };
 
+  const exportToCSV = () => {
+    if (!workouts.length) return;
+
+    // Prepare CSV header
+    const header = [
+      "Date",
+      "Exercises"
+    ];
+
+    // Prepare CSV rows
+    const rows = workouts.map(workout => {
+      // Aggregate exercises and sets into a readable string
+      const exercisesStr = workout.exercises.map(ex =>
+        `${getExerciseLabel(ex.name)}: ` +
+        ex.sets.map((set, idx) => `Set ${idx + 1} - ${set.reps} reps @ ${set.weight} lbs`).join("; ")
+      ).join(" | ");
+      return [
+        workout.date,
+        `"${exercisesStr}"`
+      ].join(",");
+    });
+
+    // Combine header and rows
+    const csvContent = [header.join(","), ...rows].join("\n");
+
+    // Download CSV
+    const blob = new Blob([csvContent], { type: "text/csv" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "workouts.csv";
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
   if (!user) {
     return (
       <div className="workout-container">
@@ -256,6 +291,9 @@ function App() {
 
       <div className="workout-list">
         <h2>Past Workouts</h2>
+        <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '10px' }}>
+          <button className="app-button" onClick={exportToCSV}>Export to CSV</button>
+        </div>
         {workouts.length === 0 ? (
           <p className="no-workouts">No workouts logged yet. Add one to get started!</p>
         ) : (
