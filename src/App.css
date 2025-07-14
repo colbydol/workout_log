@@ -23,6 +23,12 @@ h1, h2, h3, h4, h5, h6, p, label, span, div, td, th {
 /* Make sure form elements use black text */
 input, select, .exercise-dropdown {
   color: #000000;
+  background-color: #fff !important;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 8px;
+  font-size: 1em;
+  margin-bottom: 8px;
 }
 
 /* Ensure table text is black */
