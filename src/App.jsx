@@ -216,6 +216,44 @@ function App() {
         <button type="button" onClick={addExercise} style={{marginBottom: '10px'}}>Add Exercise</button>
         <button type="submit" className="add-button">Add Workout</button>
       </form>
+
+      {/* Aggregated sets and reps table for the current workout being entered */}
+      {newWorkout.exercises.length > 0 && (
+        <div style={{ margin: '30px 0' }}>
+          <h2>Current Workout Details</h2>
+          <table style={{ width: '100%', borderCollapse: 'collapse' }}>
+            <thead>
+              <tr>
+                <th style={{ border: '1px solid #ccc', padding: '8px' }}>Exercise</th>
+                <th style={{ border: '1px solid #ccc', padding: '8px' }}>Set</th>
+                <th style={{ border: '1px solid #ccc', padding: '8px' }}>Reps</th>
+                <th style={{ border: '1px solid #ccc', padding: '8px' }}>Weight (lbs)</th>
+              </tr>
+            </thead>
+            <tbody>
+              {newWorkout.exercises.map((exercise, exIdx) =>
+                exercise.sets.map((set, setIdx) => (
+                  <tr key={`${exIdx}-${setIdx}`}>
+                    <td style={{ border: '1px solid #ccc', padding: '8px' }}>
+                      {getExerciseLabel(exercise.name)}
+                    </td>
+                    <td style={{ border: '1px solid #ccc', padding: '8px' }}>
+                      {setIdx + 1}
+                    </td>
+                    <td style={{ border: '1px solid #ccc', padding: '8px' }}>
+                      {set.reps}
+                    </td>
+                    <td style={{ border: '1px solid #ccc', padding: '8px' }}>
+                      {set.weight}
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
+      )}
+
       <div className="workout-list">
         <h2>Your Workouts</h2>
         {workouts.length === 0 ? (
