@@ -56,6 +56,10 @@ button {
   font-family: Arial, sans-serif;
 }
 
+.workout-container h1 {
+  color: #1976d2;
+}
+
 /* Card-like containers */
 .card {
   background: #fff !important;
@@ -211,15 +215,13 @@ tr:last-child td {
 .app-button {
   background-color: #1976d2;
   color: #fff;
-  border: none;
   border-radius: 6px;
   padding: 10px 20px;
-  margin: 8px 0;
   font-size: 1rem;
-  cursor: pointer;
   font-weight: 600;
-  box-shadow: 0 2px 4px rgba(25, 118, 210, 0.08);
-  transition: background 0.2s, box-shadow 0.2s;
+  border: none;
+  cursor: pointer;
+  margin: 8px 0;
 }
 
 .app-button:hover {

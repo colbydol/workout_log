@@ -318,7 +318,7 @@ function App() {
       <div className="workout-list card">
         <h2>Past Workouts</h2>
         <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '10px' }}>
-          <button className="app-button" onClick={exportToCSV}>Export to CSV</button>
+          <button className="app-button">...</button>
         </div>
         {workouts.length === 0 ? (
           <p className="no-workouts">No workouts logged yet. Add one to get started!</p>
