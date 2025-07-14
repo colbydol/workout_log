@@ -49,7 +49,6 @@ button {
   }
 }
 
-
 .workout-container {
   max-width: 800px;
   margin: 0 auto;
@@ -57,46 +56,81 @@ button {
   font-family: Arial, sans-serif;
 }
 
+/* Card-like containers */
+.card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.07);
+  padding: 24px;
+  margin-bottom: 32px;
+}
+
+/* Profile section */
+.profile-card {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: #f5f5f5;
+  padding: 12px 24px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  font-size: 1.1em;
+}
+
 h1 {
   text-align: center;
-  color: #333;
-  margin-bottom: 30px;
+  font-size: 2.5em;
+  color: #1976d2;
+  margin-bottom: 20px;
+  font-weight: 700;
 }
 
 h2 {
-  margin-bottom: 20px;
-  color: #444;
+  font-size: 1.5em;
+  color: #333;
+  margin-bottom: 16px;
+  font-weight: 600;
 }
 
 .workout-form {
-  background-color: #f5f5f5;
-  padding: 20px;
-  border-radius: 8px;
-  margin-bottom: 30px;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.07);
+  padding: 24px;
+  margin-bottom: 32px;
 }
 
 .form-group {
   margin-bottom: 15px;
 }
 
+.form-group label {
+  font-weight: 600;
+  color: #1976d2;
+}
+
 .form-row {
   display: flex;
-  gap: 15px;
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 8px;
 }
 
 label {
   display: block;
   margin-bottom: 5px;
-  font-weight: bold;
 }
 
-input {
+input, select {
   width: 100%;
   padding: 8px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 16px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 1em;
+  margin-bottom: 8px;
 }
 
 .add-button {
@@ -116,23 +150,32 @@ input {
 
 table {
   width: 100%;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
   border-collapse: collapse;
   margin-top: 20px;
+  overflow: hidden;
 }
 
 th, td {
   text-align: left;
-  padding: 12px;
-  border-bottom: 1px solid #ddd;
+  padding: 14px;
+  border-bottom: 1px solid #eee;
 }
 
 th {
-  background-color: #f2f2f2;
-  font-weight: bold;
+  background: #f0f4f8;
+  color: #1976d2;
+  font-weight: 600;
 }
 
 tr:hover {
   background-color: #f5f5f5;
+}
+
+tr:last-child td {
+  border-bottom: none;
 }
 
 .no-workouts {
@@ -169,14 +212,26 @@ tr:hover {
   background-color: #1976d2;
   color: #fff;
   border: none;
-  border-radius: 4px;
-  padding: 10px 18px;
-  margin: 5px 0;
+  border-radius: 6px;
+  padding: 10px 20px;
+  margin: 8px 0;
   font-size: 1rem;
   cursor: pointer;
-  transition: background 0.2s;
+  font-weight: 600;
+  box-shadow: 0 2px 4px rgba(25, 118, 210, 0.08);
+  transition: background 0.2s, box-shadow 0.2s;
 }
 
 .app-button:hover {
   background-color: #1565c0;
+  box-shadow: 0 4px 8px rgba(25, 118, 210, 0.12);
+}
+
+/* Exercise block styling */
+.exercise-block {
+  background: #f5faff;
+  border-radius: 8px;
+  padding: 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 1px 4px rgba(25, 118, 210, 0.05);
 }

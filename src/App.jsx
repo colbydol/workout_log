@@ -203,25 +203,16 @@ function App() {
 
   return (
     <div className="workout-container">
-      <div style={{
-        position: 'absolute',
-        top: 20,
-        right: 30,
-        display: 'flex',
-        alignItems: 'center',
-        gap: '12px',
-        background: '#f5f5f5',
-        padding: '8px 16px',
-        borderRadius: '8px',
-        boxShadow: '0 2px 4px rgba(0,0,0,0.07)'
-      }}>
+      <div className="profile-card">
         <span style={{ fontWeight: 'bold', color: '#1976d2' }}>
           {user?.email}
         </span>
         <button onClick={handleLogout} className="app-button" style={{marginBottom: 0, marginLeft: '8px'}}>Logout</button>
       </div>
+
       <h1>Workout Log</h1>
-      <form onSubmit={addWorkout} className="workout-form">
+
+      <form onSubmit={addWorkout} className="workout-form card">
         <h2>Add New Workout</h2>
         <div className="form-group">
           <label>Date:</label>
@@ -289,7 +280,7 @@ function App() {
 
       {/* Aggregated sets and reps table for the current workout being entered */}
       {newWorkout.exercises.length > 0 && (
-        <div style={{ margin: '30px 0' }}>
+        <div className="card" style={{ margin: '30px 0' }}>
           <h2>Current Workout Details</h2>
           <table style={{ width: '100%', borderCollapse: 'collapse' }}>
             <thead>
@@ -324,7 +315,7 @@ function App() {
         </div>
       )}
 
-      <div className="workout-list">
+      <div className="workout-list card">
         <h2>Past Workouts</h2>
         <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '10px' }}>
           <button className="app-button" onClick={exportToCSV}>Export to CSV</button>
