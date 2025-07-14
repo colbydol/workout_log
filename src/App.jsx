@@ -221,7 +221,6 @@ function App() {
         <button onClick={handleLogout} className="app-button" style={{marginBottom: 0, marginLeft: '8px'}}>Logout</button>
       </div>
       <h1>Workout Log</h1>
-      <button onClick={handleLogout} className="app-button" style={{marginBottom: '20px'}}>Logout</button>
       <form onSubmit={addWorkout} className="workout-form">
         <h2>Add New Workout</h2>
         <div className="form-group">
