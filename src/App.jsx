@@ -203,6 +203,23 @@ function App() {
 
   return (
     <div className="workout-container">
+      <div style={{
+        position: 'absolute',
+        top: 20,
+        right: 30,
+        display: 'flex',
+        alignItems: 'center',
+        gap: '12px',
+        background: '#f5f5f5',
+        padding: '8px 16px',
+        borderRadius: '8px',
+        boxShadow: '0 2px 4px rgba(0,0,0,0.07)'
+      }}>
+        <span style={{ fontWeight: 'bold', color: '#1976d2' }}>
+          {user?.email}
+        </span>
+        <button onClick={handleLogout} className="app-button" style={{marginBottom: 0, marginLeft: '8px'}}>Logout</button>
+      </div>
       <h1>Workout Log</h1>
       <button onClick={handleLogout} className="app-button" style={{marginBottom: '20px'}}>Logout</button>
       <form onSubmit={addWorkout} className="workout-form">
