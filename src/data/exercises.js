@@ -24,7 +24,22 @@ export const exerciseOptions = [
   { value: 'plank', label: 'Plank', category: 'core' },
   { value: 'crunch', label: 'Crunch', category: 'core' },
   { value: 'russian-twist', label: 'Russian Twist', category: 'core' },
-  { value: 'leg-raise', label: 'Leg Raise', category: 'core' }
+  { value: 'leg-raise', label: 'Leg Raise', category: 'core' },
+  // CrossFit exercises
+  { value: 'thruster', label: 'Thruster', category: 'crossfit' },
+  { value: 'wall-ball', label: 'Wall Ball', category: 'crossfit' },
+  { value: 'double-under', label: 'Double Under', category: 'crossfit' },
+  { value: 'box-jump', label: 'Box Jump', category: 'crossfit' },
+  { value: 'burpee', label: 'Burpee', category: 'crossfit' },
+  { value: 'power-clean', label: 'Power Clean', category: 'crossfit' },
+  { value: 'snatch', label: 'Snatch', category: 'crossfit' },
+  { value: 'muscle-up', label: 'Muscle Up', category: 'crossfit' },
+  { value: 'toes-to-bar', label: 'Toes to Bar', category: 'crossfit' },
+  { value: 'kettlebell-swing', label: 'Kettlebell Swing', category: 'crossfit' },
+  { value: 'rowing', label: 'Rowing', category: 'crossfit' },
+  { value: 'handstand-push-up', label: 'Handstand Push Up', category: 'crossfit' },
+  { value: 'sumo-deadlift-high-pull', label: 'Sumo Deadlift High Pull', category: 'crossfit' },
+  { value: 'overhead-squat', label: 'Overhead Squat', category: 'crossfit' }
 ];
 
 // Helper function to get exercise label by value
